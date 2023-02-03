@@ -1,28 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, StyleSheet } from 'react-native';
 
-import { Page, PageView } from './interfaces/page';
+import { PageItem } from './interfaces/page';
 
-import PAGES from './components/pages';
+import PAGES from './fixtures/pages';
 
+import PageView from './components/PageView';
+
+import BottomNavigationBar from './components/BottomNavigationBar';
+
+const app = StyleSheet.create({
+  view: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+});
 export default function App() {
-  const [page, setPage] = React.useState<PageView>(PAGES[0]);
+  const [selectedPage, setSelectedPage] = useState<string>(PAGES[0].text);
 
   const handlePress = (pageText: string) => {
-    const clickedPage = PAGES.find(item => item.text === pageText);
-
-    if (clickedPage === undefined) {
-      throw new Error('Pressed Button is not found!');
+    if (!PAGES.find(page => page.text === pageText)) {
+      throw new Error(`${pageText} is not in PAGES.`);
     }
 
-    setPage(clickedPage);
+    setSelectedPage(pageText);
   };
 
   return (
-    <View>
-      {page.view ? page.view : 'undefined page'}
-      <BottomNavigationBar page={page} handlePress={handlePress} />
+    <View style={app.view}>
+      <PageView page={selectedPage} />
+      <BottomNavigationBar
+        handlePress={handlePress}
+        selectedPage={selectedPage}
+      />
     </View>
   );
 }

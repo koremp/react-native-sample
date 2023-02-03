@@ -1,11 +1,16 @@
 import React from 'react';
 
-import { Button, StyleSheet } from 'react-native';
+import { View, Button, StyleSheet } from 'react-native';
 
 const bottomNavigationItem = StyleSheet.create({
-  button: {},
-  selectedButton: {},
+  button: {
+    flex: 1,
+  },
+  selectedButton: {
+    flex: 1,
+  },
 });
+
 export default function BottomNavigationItem({
   icon,
   text,
@@ -18,9 +23,13 @@ export default function BottomNavigationItem({
   handlePress: () => void;
 }) {
   return (
-    <Button onPress={() => handlePress()}>
-      {icon}
-      {text}
-    </Button>
+    <View
+      style={
+        selected
+          ? bottomNavigationItem.selectedButton
+          : bottomNavigationItem.button
+      }>
+      <Button onPress={() => handlePress()} title={text} />
+    </View>
   );
 }

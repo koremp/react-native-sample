@@ -1,8 +1,4 @@
-export interface Page {
+export interface PageItem {
   icon: any;
   text: string;
-}
-
-export interface PageView extends Page {
-  view: React.ReactNode;
 }
